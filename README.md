@@ -27,10 +27,24 @@ Counters are not themselves a reactive data source, but you can store
 the counter value into a reactive data source such as a Meteor
 document whenever you increment or decrement a counter.
 
+## mrt:mongo-counter
+
+Warning, API changed, if you have used `mrt:mongo-counter` before and want now use this package now,
+you must migrate your count collection 
+`awwx_mongo_counter` to new or update code:
+
+```js
+Mydb.insert({
+  _id: incrementCounter('awwx_mongo_counter', 'mydbcounter'),
+  ...
+});
+
+
+```
 
 ## Version
 
-1.1.0
+0.0.2
 
 Meteor linker supported:
 This implementation works with both pre-linker Meteor (0.6.4.1 and
@@ -47,13 +61,16 @@ and then call the method from the client.
 
 ### incrementCounter
 
-**incrementCounter(name, [amount])** &nbsp; *server*
+**incrementCounter(countCollection, name, [amount])** &nbsp; *server*
 
 Increments a database counter and returns the new value.
 
 *Arguments*
 
 <dl>
+  <dt>countCollection: string</dt>
+  <dd>Name of collection where counter is stored.</dd>
+
   <dt>name: string</dt>
   <dd>The name of the counter to increment.</dd>
 
@@ -69,14 +86,17 @@ call.
 
 ### decrementCounter
 
-**decrementCounter(name, [amount])** &nbsp; *server*
+**decrementCounter(countCollection, name, [amount])** &nbsp; *server*
 
 Decrements a database counter and returns the new value.
 
 *Arguments*
 
 <dl>
-  <dt>name: string</dt>
+  <dt>countCollection: string</dt>
+  <dd>Name of collection where counter is stored.</dd>
+
+<dt>name: string</dt>
   <dd>The name of the counter to decrement.</dd>
 
   <dt>amount: integer</dt>
@@ -89,13 +109,16 @@ returns the new value.
 
 ### setCounter
 
-**setCounter(name, value)** &nbsp; *server*
+**setCounter(countCollection, name, value)** &nbsp; *server*
 
 Sets a counter.
 
 *Arguments*
 
 <dl>
+  <dt>countCollection: string</dt>
+  <dd>Name of collection where counter is stored.</dd>
+
   <dt>name: string</dt>
   <dd>The name of the counter to set.</dd>
 
